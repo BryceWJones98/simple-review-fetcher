@@ -1,0 +1,13 @@
+{
+  "directory_settings" : {
+    "google_places" : {
+      "api_key" : "your_google_places_api_key",
+      "place_id" : "google_place_id"
+    }
+  },
+  "datastore_settings" : {
+    "medium": "json",
+    "path" : "datastore.json",
+    "update_frequency" : 10
+  }
+}
