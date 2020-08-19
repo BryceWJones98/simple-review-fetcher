@@ -1,7 +1,5 @@
 <?php
 
-$config = json_decode(file_get_contents('../../config.json'));
-
 function fetch($config)
 {
     $apiKey = $config->directory_settings->google_places->api_key;
