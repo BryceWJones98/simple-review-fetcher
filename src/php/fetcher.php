@@ -22,12 +22,11 @@ function fetch($config){
             );
 
             if(time() >= $config->datastore_settings->update_frequency + $existingData->last_modified){
-                //pull latest data from google api, save it, and return it
+                //pull latest data from google api, save it, and return updated dataset
                 $newData = getGoogleReviews($apiKey, $placeID);
 
                 return saveReviewsJSON($newData, $relativeDatastorePath, $existingData->reviews->google_reviews);
 
-                return $newData;
             } else{
                 //return existing data from datastore file
                 return $existingData;
@@ -59,14 +58,21 @@ function saveReviewsJSON($reviews, $path, $existingReviews = null){
     $saveData->reviews = new stdClass();
     $saveData->reviews->google_reviews = new stdClass();
 
-    //TODO: Feed list of previously saved reviews (if they exist) to this function so the new reviews can be appended to the file. Compare hashes to avoid duplication.
+    if(isset($existingReviews)){
 
-    $saveData = new stdClass();
+        //adds existing saved reviews to dataset that should be saved
+        foreach ($existingReviews as $key => $existingReview){
+
+            //when the review is saved, it's hash is used as the key.
+            $saveData->reviews->google_reviews->{$key} = $existingReview;
+
+        }
+
+    }
 
     foreach($reviews as $review){
         $reviewHash = md5(json_encode($review));
-
-        $saveData->reviews->google_reviews[$reviewHash] = $review;
+        $saveData->reviews->google_reviews->{$reviewHash} = $review;
     }
 
     $saveData->last_modified = time();
