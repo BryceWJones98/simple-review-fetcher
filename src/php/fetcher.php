@@ -25,7 +25,7 @@ function fetch($config){
                 //pull latest data from google api, save it, and return it
                 $newData = getGoogleReviews($apiKey, $placeID);
 
-                saveReviewsJSON($newData, $relativeDatastorePath);
+                return saveReviewsJSON($newData, $relativeDatastorePath, $existingData->reviews->google_reviews);
 
                 return $newData;
             } else{
@@ -37,7 +37,7 @@ function fetch($config){
 
             $newData = getGoogleReviews($apiKey, $placeID);
 
-            saveReviewsJSON($newData, $relativeDatastorePath);
+            return saveReviewsJSON($newData, $relativeDatastorePath);
         }
 
     }
@@ -75,5 +75,5 @@ function saveReviewsJSON($reviews, $path, $existingReviews = null){
     fwrite($fp, json_encode($saveData, JSON_PRETTY_PRINT));
     fclose($fp);
 
-    return;
+    return $saveData;
 }
