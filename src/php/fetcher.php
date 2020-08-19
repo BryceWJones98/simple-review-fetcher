@@ -54,6 +54,11 @@ function getGoogleReviews($apiKey, $placeID){
 }
 
 function saveReviewsJSON($reviews, $path, $existingReviews = null){
+
+    $saveData = new stdClass();
+    $saveData->reviews = new stdClass();
+    $saveData->reviews->google_reviews = new stdClass();
+
     //TODO: Feed list of previously saved reviews (if they exist) to this function so the new reviews can be appended to the file. Compare hashes to avoid duplication.
 
     $saveData = new stdClass();
